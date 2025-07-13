@@ -77,7 +77,7 @@ How It Works (Step-by-Step):
 
 --> If it matches →  File is unchanged.
 
---> If it differs → ⚠ File has been modified!
+--> If it differs → File has been modified!
 
 Key Features:
 
