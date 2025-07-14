@@ -20,97 +20,144 @@ Objective:
 
 --> Detects if a file has been tampered with, modified, or corrupted.
 
-Tools and Technologies Used:
-
---> Python 3.13+
-Used as the primary programming language for building the integrity logic and server.
-
---> Flask (Web Framework)
-Creates a simple web interface where users can upload files and check integrity directly in a browser.
-
---> hashlib
-Python’s built-in cryptographic library used to compute the SHA-256 hash of uploaded files.
-
---> VS Code (Visual Studio Code)
-Used for writing, organizing, and executing Python code and HTML templates.
-
---> HTML
-Used to build a clean upload form inside index.html using Flask’s Jinja2 templating.
-
---> Google Chrome
-Used to access the web interface and view real-time results of file integrity scans.
-
-Folder Structure:
-
-File Integrity Checker/
-├── app.py                → Flask server (routes, logic, result rendering)
-├── integrity_checker.py  → Function to calculate file hash
-└── templates/
-    └── index.html        → Web interface (upload form + results)
-
-How It Works (Step-by-Step):
-
-1. User runs python app.py in VS Code terminal.
 
 
-2. A local Flask server starts at http://127.0.0.1:5000.
+Tools & Technologies Used:
+
+1. Python 3.10+:
+
+Core programming language used to build the application due to its readability, wide library support, and community backing.
 
 
-3. User opens the URL in Google Chrome.
+
+2. hashlib Library:
+
+Standard Python library used to generate cryptographic hash values like SHA-256.
+
+Ensures file data is converted into unique, fixed-size strings that change even with the slightest file modification.
 
 
-4. A file upload form is shown in the browser.
+
+3. VS Code (Visual Studio Code):
+
+Code editor used for writing, editing, and debugging Python scripts.
+
+Integrated terminal and Git support helped with testing and version control.
 
 
-5. User uploads a file (e.g., report.pdf or notes.txt).
+
+4. OS and File I/O Libraries (os, sys):
+
+Used for interacting with the file system (reading files, checking paths, etc.).
 
 
-6. The application reads the file and calculates its SHA-256 hash.
+
+5. Command-Line Interface (CLI):
+
+The tool runs from the terminal, offering options like scanning files and verifying integrity via arguments or prompts.
 
 
-7. On first upload: hash is stored as the “original”.
+
+6. Optional: JSON / Text File Storage:
+
+To save and compare original file hash values for future verification.
 
 
-8. On second upload (same or modified file):
+Steps Followed During Development:
 
-9. The new file’s hash is compared with the stored one.
+1. Planning the Workflow:
 
---> If it matches →  File is unchanged.
+Defined the structure: two main functionalities were needed — hashing files and verifying file integrity.
 
---> If it differs → File has been modified!
+Decided to implement a modular approach, separating logic into functions or modules for scalability.
 
-Key Features:
 
---> Fast, lightweight, and accurate file checking tool.
 
---> Shows results clearly in Google Chrome, not just terminal.
+2. Hash Calculation Module (calculate_hash):
 
---> Works for any file type: .txt, .pdf, .docx, .jpg, etc.
+Created a function that takes a file path and returns its SHA-256 hash.
 
---> Uses strong SHA-256 hashing, same algorithm used in blockchain & digital signatures.
+Read the file in binary mode using chunks (buffering) to support large files efficiently.
 
---> Supports multiple upload checks in one session.
+Used hashlib.sha256() to compute the hash securely.
 
-Real-Life Use Cases:
 
---> Check if a sensitive document has been modified.
 
---> Detect file corruption after downloading or copying.
+3. Integrity Verification Module:
 
---> Monitor critical config files in penetration testing or sysadmin work.
+Built a function to load original hash values (stored during a secure baseline) and compare them with current file hashes.
 
---> Use in software development pipelines to verify binary integrity.
+If a mismatch is detected, the tool prints an alert indicating possible tampering or corruption.
 
-How to Run:
 
-pip install flask
-python app.py
 
-Then visit:
+4. Error Handling & Validation:
 
-http://127.0.0.1:5000
+Added exceptions for missing files, read errors, or permission issues.
 
-Upload a file → hash is saved → re-upload same or modified file → check result.
+Ensured that invalid paths or corrupted data do not crash the program.
+
+
+
+5. User Input Handling (CLI):
+
+Provided options to users:
+
+Save current hash as original
+
+Verify a file's current hash against the saved hash
+
+
+Used input prompts and command-line arguments for interaction.
+
+
+
+6. Testing the Tool:
+
+Created test files to confirm that the tool detects:
+
+No changes (identical hash)
+
+Any modification (different hash)
+
+
+Tested on multiple file types: .txt, .pdf, .py, .docx.
+
+
+
+7. Import Error Fixing:
+
+Solved ImportError for the calculate_hash function by:
+
+Ensuring proper file/module naming
+
+Avoiding circular imports
+
+Correct folder structure (e.g., using _init_.py if needed)
+
+
+
+Use Cases:
+
+Security Monitoring: Alerts administrators if a sensitive file is modified.
+
+Digital Forensics: Ensures evidence files have not been altered.
+
+Backup Verification: Confirms that backups remain intact over time.
+
+Software Distribution: Ensures executable files are not tampered with.
+
+
+Key Takeaways:
+
+Cryptographic hashes are powerful tools for ensuring data integrity.
+
+Even a 1-character change in a file will result in a completely different hash.
+
+Python's hashlib makes implementing such tools efficient and reliable.
+
+File Integrity Checkers are lightweight but important security utilities for organizations and personal use.
+
 
 Output:
 
